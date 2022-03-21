@@ -1,0 +1,20 @@
+.array {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.array__bar {
+  margin: 0 1px;
+  width: 2px;
+  background-color: #8295ff;
+  /* background-color: #2dff49; */
+  display: inline-block;
+}
+
+.buttons {
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
