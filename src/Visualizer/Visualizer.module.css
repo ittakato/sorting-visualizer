@@ -11,10 +11,13 @@
 
 .array__bar {
   margin: 0 1px;
-  width: 2px;
+  width: 10px; /* calc and apply width in javascript  */
   background-color: #8295ff;
-  /* background-color: #2dff49; */
   display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .buttons {

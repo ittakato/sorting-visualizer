@@ -152,9 +152,10 @@ const heapifyDown = (array, n, rootIdx, animations) => {
 const bubbleSort = array => {
   const animations = [];
 
+  let i,j;
   let isSwapping = false;
-  for (let i = 0; i < array.length - 1; i++) {
-    for (let j = 0; j < array.length - 1 - i; j++) {
+  for (i = 0; i < array.length - 1; i++) {
+    for (j = 0; j < array.length - 1 - i; j++) {
       isSwapping = false;
       animations.push([j, j + 1, isSwapping]);
       animations.push([j, j + 1, isSwapping]);
@@ -169,6 +170,7 @@ const bubbleSort = array => {
 
     animations.push([array.length - 1 - i]);
   }
+  animations.push([array.length - 1 - i]);
 
   return animations;
 };
