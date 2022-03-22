@@ -1,40 +1,3 @@
-// const merge = (array1, array2) => {
-//   let i = 0;
-//   let j = 0;
-
-//   const ans = [];
-
-//   while (i < array1.length && j < array2.length) {
-//     if (array1[i] < array2[j]) {
-//       ans.push(array1[i++]);
-//     } else {
-//       ans.push(array2[j++]);
-//     }
-//   }
-
-//   while (i < array1.length) {
-//     ans.push(array1[i++]);
-//   }
-//   while (j < array2.length) {
-//     ans.push(array2[j++]);
-//   }
-
-//   return ans;
-// };
-
-// const mergeSort = (array, animations=  []) => {
-//   if (array.length <= 1) return array;
-
-//   const midIdx = Math.floor(array.length / 2);
-//   let front = array.slice(0, midIdx);
-//   let back = array.slice(midIdx);
-
-//   front = mergeSort(front);
-//   back = mergeSort(back);
-
-//   return merge(front, back);
-// };
-
 const mergeSort = array => {
   const animations = [];
   if (array.length <= 1) return array;
@@ -190,22 +153,21 @@ const bubbleSort = array => {
   const animations = [];
 
   let isSwapping = false;
-  for (let i = 0; i < array.length-1; i++) {
-    for (let j = 0; j < array.length-1-i; j++) {
-
+  for (let i = 0; i < array.length - 1; i++) {
+    for (let j = 0; j < array.length - 1 - i; j++) {
       isSwapping = false;
-      animations.push([j,j+1, isSwapping]);
-      animations.push([j,j+1, isSwapping]);
+      animations.push([j, j + 1, isSwapping]);
+      animations.push([j, j + 1, isSwapping]);
 
-      if (array[j] > array[j+1]) {
+      if (array[j] > array[j + 1]) {
         isSwapping = true;
-        animations.push([j,j+1, isSwapping]);
-        animations.push([j,j+1, isSwapping]);
-        [array[j], array[j+1]] = [array[j+1], array[j]];
+        animations.push([j, j + 1, isSwapping]);
+        animations.push([j, j + 1, isSwapping]);
+        [array[j], array[j + 1]] = [array[j + 1], array[j]];
       }
     }
 
-    animations.push([array.length-1-i]);
+    animations.push([array.length - 1 - i]);
   }
 
   return animations;

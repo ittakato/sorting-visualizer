@@ -4,6 +4,17 @@ import * as Algorithms from '../Algorithms/Algorithms';
 
 import styles from './Visualizer.module.css';
 
+// Bar Colors
+const blue = '#8295ff';
+const green = '#2dff49';
+
+// Speeds
+const mergeSortSpeed = 5;
+const quickSortSpeed = 5;
+const heapSortSpeed = 5;
+const bubbleSortSpeed = 5;
+
+// Utility Functions
 const generateRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
 };
@@ -16,6 +27,39 @@ const resetArray = (numOfArrays = 100, min = 5, max = 1000) => {
   return array;
 };
 
+const checkIfSorted = array => {
+  let currIdx = 0;
+  for (let nextIdx = 1; nextIdx < array.length; nextIdx++) {
+    if (array[currIdx] > array[nextIdx]) {
+      return false;
+    }
+    currIdx = nextIdx;
+  }
+  return true;
+};
+
+const testAlgorithms = () => {
+  for (let i = 0; i < 100; i++) {
+    const array = [];
+    const bound = generateRandomInt(1, 1000);
+    for (let j = 0; j < bound; j++) {
+      array.push(generateRandomInt(-1000, 1000));
+    }
+    const jsSortedArray = array.slice().sort((a, b) => a - b);
+
+    // Choose sorting algorithm
+    const sortedArray = Algorithms.bubbleSort(array);
+    // console.log(sortedArray);
+
+    if (JSON.stringify(jsSortedArray) !== JSON.stringify(sortedArray)) {
+      console.log(false);
+      return;
+    }
+  }
+  console.log(true);
+};
+
+// Sorting Algorithms
 const mergeSort = array => {
   if (checkIfSorted(array)) return;
 
@@ -35,22 +79,19 @@ const mergeSort = array => {
         if (isFinalMerge) {
           bar1Style.backgroundColor = green;
         }
-      }, i * 5);
+      }, i * mergeSortSpeed);
     } else {
       setTimeout(() => {
         const [barIdx, newHeight, isFinalMerge] = animations[i];
         const barStyle = arrayBars[barIdx].style;
-        barStyle.height = `${newHeight * barScale}px`;
+        barStyle.height = `${newHeight * barScale}vh`;
         if (isFinalMerge) {
           barStyle.backgroundColor = green;
         }
-      }, i * 5);
+      }, i * mergeSortSpeed);
     }
   }
 };
-
-const blue = '#8295ff';
-const green = '#2dff49';
 
 const quickSort = array => {
   if (checkIfSorted(array)) return;
@@ -69,11 +110,11 @@ const quickSort = array => {
       if (isPivot) {
         setTimeout(() => {
           pivBarStyle.backgroundColor = 'yellow';
-        }, i * 5);
+        }, i * quickSortSpeed);
       } else {
         setTimeout(() => {
           pivBarStyle.backgroundColor = green;
-        }, i * 5);
+        }, i * quickSortSpeed);
       }
     } else {
       const [bar1Idx, bar2Idx, isSwapping] = animations[i];
@@ -89,13 +130,13 @@ const quickSort = array => {
           ];
           bar1Style.backgroundColor = 'red';
           bar2Style.backgroundColor = 'red';
-        }, i * 5);
+        }, i * quickSortSpeed);
       } else if (!isRevert) {
         isRevert = true;
         setTimeout(() => {
           bar1Style.backgroundColor = 'red';
           bar2Style.backgroundColor = 'red';
-        }, i * 5);
+        }, i * quickSortSpeed);
       }
 
       if (isRevert) {
@@ -103,7 +144,7 @@ const quickSort = array => {
         setTimeout(() => {
           bar1Style.backgroundColor = blue;
           bar2Style.backgroundColor = blue;
-        }, i * 5);
+        }, i * quickSortSpeed);
       }
     }
   }
@@ -137,18 +178,16 @@ const heapSort = array => {
           bar1Style.backgroundColor = 'red';
           bar2Style.backgroundColor = 'red';
           if (bar3Style) bar3Style.backgroundColor = 'red';
-        }, i * 5);
-      } else  {
+        }, i * heapSortSpeed);
+      } else {
         isRevert2 = false;
         setTimeout(() => {
           bar1Style.backgroundColor = blue;
           bar2Style.backgroundColor = blue;
           if (bar3Style) bar3Style.backgroundColor = blue;
-        }, i * 5);
+        }, i * heapSortSpeed);
       }
-    } 
-    
-    else if (flag === 1 || flag === 2) {
+    } else if (flag === 1 || flag === 2) {
       const [_ignore, bar1Idx, bar2Idx] = animations[i];
       const bar1Style = arrayBars[bar1Idx].style;
       const bar2Style = arrayBars[bar2Idx].style;
@@ -156,122 +195,88 @@ const heapSort = array => {
       if (!isRevert1) {
         isRevert1 = true;
         setTimeout(() => {
-          [bar1Style.height, bar2Style.height] = [ bar2Style.height, bar1Style.height];
+          [bar1Style.height, bar2Style.height] = [
+            bar2Style.height,
+            bar1Style.height,
+          ];
           bar1Style.backgroundColor = 'red';
           bar2Style.backgroundColor = 'red';
-        }, i * 5);
+        }, i * heapSortSpeed);
       } else if (isRevert1 && flag === 1) {
         isRevert1 = false;
         setTimeout(() => {
           bar1Style.backgroundColor = blue;
           bar2Style.backgroundColor = blue;
-        }, i * 5);
+        }, i * heapSortSpeed);
       } else if (isRevert1 && flag === 2) {
         isRevert1 = false;
         setTimeout(() => {
           bar1Style.backgroundColor = green;
           bar2Style.backgroundColor = green;
-        }, i * 5);
+        }, i * heapSortSpeed);
       }
     }
   }
 };
 
 const bubbleSort = array => {
+  if (checkIfSorted(array)) return;
 
   const animations = Algorithms.bubbleSort(array);
 
   console.log(animations);
-  
+
   let isRevert1 = false;
   let isRevert2 = false;
 
   for (let i = 0; i < animations.length; i++) {
     const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
 
-    const [bar1Idx, bar2Idx, isSwapping]  = animations[i];
+    const [bar1Idx, bar2Idx, isSwapping] = animations[i];
     const bar1Style = arrayBars[bar1Idx].style;
     const bar2Style = arrayBars[bar2Idx]?.style;
-    
-    if (isSwapping && animations.length !== 1) {
 
+    if (isSwapping && animations.length !== 1) {
       if (!isRevert1) {
         isRevert1 = true;
         setTimeout(() => {
-          [bar1Style.height, bar2Style.height] = [ bar2Style.height, bar1Style.height];
+          [bar1Style.height, bar2Style.height] = [
+            bar2Style.height,
+            bar1Style.height,
+          ];
           bar1Style.backgroundColor = 'red';
           bar2Style.backgroundColor = 'red';
-        }, i*5);
+        }, i * bubbleSortSpeed);
       } else {
         isRevert1 = false;
         setTimeout(() => {
           bar1Style.backgroundColor = blue;
           bar2Style.backgroundColor = blue;
-        }, i*5);
+        }, i * bubbleSortSpeed);
       }
-    } 
-    
-    else if (animations[i].length !== 1) {
+    } else if (animations[i].length !== 1) {
       if (!isRevert2) {
         isRevert2 = true;
         setTimeout(() => {
           bar1Style.backgroundColor = 'green';
           bar2Style.backgroundColor = 'green';
-        }, i*5);
+        }, i * bubbleSortSpeed);
       } else {
         isRevert2 = false;
         setTimeout(() => {
           bar1Style.backgroundColor = blue;
           bar2Style.backgroundColor = blue;
-        }, i*5);
+        }, i * bubbleSortSpeed);
       }
     }
-
 
     if (animations[i].length === 1) {
       setTimeout(() => {
         const barStyle = arrayBars[animations[i][0]].style;
-        barStyle.backgroundColor = 'purple';
-      }, i*5);
-    }
-
-    
-  }
-
-
-
-};
-
-const checkIfSorted = array => {
-  let currIdx = 0;
-  for (let nextIdx = 1; nextIdx < array.length; nextIdx++) {
-    if (array[currIdx] > array[nextIdx]) {
-      return false;
-    }
-    currIdx = nextIdx;
-  }
-  return true;
-};
-
-const testAlgorithms = () => {
-  for (let i = 0; i < 100; i++) {
-    const array = [];
-    const bound = generateRandomInt(1, 1000);
-    for (let j = 0; j < bound; j++) {
-      array.push(generateRandomInt(-1000, 1000));
-    }
-    const jsSortedArray = array.slice().sort((a, b) => a - b);
-
-    // Choose sorting algorithm
-    const sortedArray = Algorithms.bubbleSort(array);
-    console.log(sortedArray);
-
-    if (JSON.stringify(jsSortedArray) !== JSON.stringify(sortedArray)) {
-      console.log(false);
-      return;
+        barStyle.backgroundColor = green;
+      }, i * bubbleSortSpeed);
     }
   }
-  console.log(true);
 };
 
 const disableButtons = timeout => {
@@ -290,33 +295,39 @@ const enableButtonDisableFeature = () => {
     uiButtons.addEventListener('click', e => {
       const tgt = e.target;
       if (tgt.previousSibling && tgt.nextSibling) {
-        disableButtons(10000);
+        disableButtons(10000); // set time of disable
       }
     });
   }
 };
 
-const barScale = 1;
-
-const numOfArrays = 100;
+const barScale = 0.08; // 0.01 = 10vh,
+const numOfArrays = 150;
 
 const Visualizer = () => {
   const [array, setArray] = useState([]);
 
   useEffect(() => {
-    setArray(resetArray());
+    setArray(resetArray(numOfArrays));
     // enableButtonDisableFeature();
   }, []);
 
+  const applyBarSettings = (arrayBars, array) => {
+    arrayBars.forEach((arrayBar, idx) => {
+      arrayBar.style.backgroundColor = blue;
+      arrayBar.style.height = `${array[idx] * 0.08}vh`;
+    });
+  };
+
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.array}>
         {array.map((value, index) => {
           return (
             <div
               className={styles.array__bar}
               key={index}
-              style={{ height: `${value * barScale}px` }}
+              style={{ height: `${value * 0.08}vh` }}
             ></div>
           );
         })}
@@ -328,11 +339,7 @@ const Visualizer = () => {
             const arrayBars = document.querySelectorAll(
               `.${styles.array__bar}`
             );
-            arrayBars.forEach(arraybar => {
-              arraybar.style.backgroundColor = '#8295ff';
-              let barWidth = 800 / numOfArrays;
-              arraybar.style.width = `${barWidth}px`;
-            });
+            applyBarSettings(arrayBars, array);
           }}
         >
           Generate New Array
