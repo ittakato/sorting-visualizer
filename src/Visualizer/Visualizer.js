@@ -29,7 +29,7 @@ const resetArray = (numOfArrays = 100, min = 5, max = 1000) => {
 
 const colorAllBars = (array, color) => {
   const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
-  arrayBars.forEach(arrayBar => arrayBar.style.backgroundColor = color);
+  arrayBars.forEach(arrayBar => (arrayBar.style.backgroundColor = color));
 };
 
 const checkIfSorted = array => {
@@ -93,7 +93,9 @@ const mergeSort = array => {
       setTimeout(() => {
         const [barIdx, newHeight, isFinalMerge] = animations[i];
         const barStyle = arrayBars[barIdx].style;
-        arrayBars[barIdx].innerText = newHeight;
+        if (arrayBars[barIdx].innerText) {
+          arrayBars[barIdx].innerText = newHeight;
+        }
         barStyle.height = `${newHeight * barScale}vh`;
         if (isFinalMerge) {
           barStyle.backgroundColor = endColor;
@@ -350,20 +352,17 @@ const Visualizer = () => {
   };
 
   useEffect(() => {
-    const viewportWidth = 64;
     let barWidth = `${viewportWidth / defaultBarNum}vw`;
-    setWidth(barWidth);
 
     const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
-    applyBarSettings(arrayBars, array, width);
-    
+    applyBarSettings(arrayBars, array, barWidth);
+
     // enableButtonDisableFeature();
   }, []);
 
   useEffect(() => {
     setArray(resetArray(numOfArrays));
 
-    const viewportWidth = 64;
     let barWidth = `${viewportWidth / numOfArrays}vw`;
     setWidth(barWidth);
 
@@ -372,8 +371,6 @@ const Visualizer = () => {
 
   const numOfArraysChangeHandler = event => {
     setNumOfArrays(event.target.value);
-    setArray(resetArray(numOfArrays));
-
     const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
     applyBarSettings(arrayBars, array, width);
   };
@@ -388,7 +385,7 @@ const Visualizer = () => {
               key={index}
               style={{ height: `${value * 0.08}vh` }}
             >
-              {value}
+              {numOfArrays <= 36 ? value : ''}
             </div>
           );
         })}
