@@ -33,7 +33,7 @@ const mergeSort = array => {
         bar1Style.backgroundColor = color;
         bar2Style.backgroundColor = color;
         if (isFinalMerge) {
-          bar1Style.backgroundColor = '#2dff49';
+          bar1Style.backgroundColor = green;
         }
       }, i * 5);
     } else {
@@ -42,7 +42,7 @@ const mergeSort = array => {
         const barStyle = arrayBars[barIdx].style;
         barStyle.height = `${newHeight * barScale}px`;
         if (isFinalMerge) {
-          barStyle.backgroundColor = '#2dff49';
+          barStyle.backgroundColor = green;
         }
       }, i * 5);
     }
@@ -50,12 +50,12 @@ const mergeSort = array => {
 };
 
 const blue = '#8295ff';
+const green = '#2dff49';
 
 const quickSort = array => {
   if (checkIfSorted(array)) return;
 
   const animations = Algorithms.quickSort(array);
-  console.log(animations);
 
   let isPivot = false;
   let isRevert = false;
@@ -72,7 +72,7 @@ const quickSort = array => {
         }, i * 5);
       } else {
         setTimeout(() => {
-          pivBarStyle.backgroundColor = 'purple';
+          pivBarStyle.backgroundColor = green;
         }, i * 5);
       }
     } else {
@@ -93,8 +93,8 @@ const quickSort = array => {
       } else if (!isRevert) {
         isRevert = true;
         setTimeout(() => {
-          bar1Style.backgroundColor = 'green';
-          bar2Style.backgroundColor = 'green';
+          bar1Style.backgroundColor = 'red';
+          bar2Style.backgroundColor = 'red';
         }, i * 5);
       }
 
@@ -109,6 +109,9 @@ const quickSort = array => {
   }
 };
 
+const heapSort = array => {};
+const bubbleSort = array => {};
+
 const checkIfSorted = array => {
   let currIdx = 0;
   for (let nextIdx = 1; nextIdx < array.length; nextIdx++) {
@@ -120,8 +123,6 @@ const checkIfSorted = array => {
   return true;
 };
 
-const heapSort = array => {};
-const bubbleSort = array => {};
 
 const testAlgorithms = () => {
   for (let i = 0; i < 100; i++) {
@@ -133,7 +134,8 @@ const testAlgorithms = () => {
     const jsSortedArray = array.slice().sort((a, b) => a - b);
 
     // Choose sorting algorithm
-    const sortedArray = Algorithms.quickSort(array);
+    const sortedArray = Algorithms.heapSort(array);
+    console.log(sortedArray);
 
     if (JSON.stringify(jsSortedArray) !== JSON.stringify(sortedArray)) {
       console.log(false);

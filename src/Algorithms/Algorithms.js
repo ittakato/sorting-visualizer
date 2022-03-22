@@ -90,10 +90,10 @@ const merge = (mainArray, startIdx, midIdx, endIdx, auxArray, animations) => {
   }
 };
 
-const quickSort = (array) => {
+const quickSort = array => {
   const animations = [];
   if (array.length <= 1) return array;
-  quickSortHelper(array,0, array.length-1, animations);
+  quickSortHelper(array, 0, array.length - 1, animations);
   return animations;
 };
 
@@ -108,39 +108,66 @@ const quickSortHelper = (array, startIdx, endIdx, animations) => {
 const partition = (array, startIdx, endIdx, animations) => {
   const pivot = array[endIdx];
   animations.push([endIdx]); // endIdx is pivot // color this yellow
-  
+
   let i = startIdx - 1; // color i and j green
   let isSwapping = false;
 
   for (let j = startIdx; j <= endIdx - 1; j++) {
     isSwapping = false;
-    animations.push([i+1,j,isSwapping]); 
-    animations.push([i+1,j,isSwapping]); 
+    animations.push([i + 1, j, isSwapping]);
+    animations.push([i + 1, j, isSwapping]);
     if (array[j] < pivot) {
       i++;
       // color red when swapping
       isSwapping = true;
-      animations.push([i,j, isSwapping]);
+      animations.push([i, j, isSwapping]);
       isSwapping = false;
-      animations.push([i,j, isSwapping]);
+      animations.push([i, j, isSwapping]);
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
 
   isSwapping = true;
-  animations.push([i+1,endIdx, isSwapping]);
+  animations.push([i + 1, endIdx, isSwapping]);
   [array[i + 1], array[endIdx]] = [array[endIdx], array[i + 1]];
 
-  animations.push([i+1]); // Index of Pivot // color this purple
+  animations.push([i + 1]); // Index of Pivot // color this purple
   return i + 1;
 };
 
-const heapSort = (array) => {};
+const heapSort = array => {
+  // Create heap with array
+  for (let i = Math.floor(array.length / 2) - 1; i >= 0; i--) {
+    // Exclude leaf nodes
+    heapifyDown(array, array.length, i);
+  }
 
+  for (let i = array.length - 1; i > 0; i--) {
+    [array[0], array[i]] = [array[i], array[0]];
+    heapifyDown(array, i, 0);
+  }
 
-
-const bubbleSort = (array) => {
-
+  return array;
 };
+
+const heapifyDown = (array, n, rootIdx) => {
+  let largestIdx = rootIdx;
+  let leftIdx = 2 * rootIdx + 1;
+  let rightIdx = 2 * rootIdx + 2;
+
+  if (leftIdx < n && array[leftIdx] > array[largestIdx]) {
+    largestIdx = leftIdx;
+  }
+  if (rightIdx < n && array[rightIdx] > array[largestIdx]) {
+    largestIdx = rightIdx;
+  }
+
+  if (largestIdx !== rootIdx) {
+    [array[rootIdx], array[largestIdx]] = [array[largestIdx], array[rootIdx]];
+    heapifyDown(array, n, largestIdx);
+  }
+};
+
+const bubbleSort = array => {};
 
 export { mergeSort, quickSort, heapSort, bubbleSort };
