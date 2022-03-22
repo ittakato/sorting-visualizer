@@ -178,7 +178,68 @@ const heapSort = array => {
 };
 
 const bubbleSort = array => {
+
+  const animations = Algorithms.bubbleSort(array);
+
+  console.log(animations);
   
+  let isRevert1 = false;
+  let isRevert2 = false;
+
+  for (let i = 0; i < animations.length; i++) {
+    const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
+
+    const [bar1Idx, bar2Idx, isSwapping]  = animations[i];
+    const bar1Style = arrayBars[bar1Idx].style;
+    const bar2Style = arrayBars[bar2Idx]?.style;
+    
+    if (isSwapping && animations.length !== 1) {
+
+      if (!isRevert1) {
+        isRevert1 = true;
+        setTimeout(() => {
+          [bar1Style.height, bar2Style.height] = [ bar2Style.height, bar1Style.height];
+          bar1Style.backgroundColor = 'red';
+          bar2Style.backgroundColor = 'red';
+        }, i*5);
+      } else {
+        isRevert1 = false;
+        setTimeout(() => {
+          bar1Style.backgroundColor = blue;
+          bar2Style.backgroundColor = blue;
+        }, i*5);
+      }
+    } 
+    
+    else if (animations[i].length !== 1) {
+      if (!isRevert2) {
+        isRevert2 = true;
+        setTimeout(() => {
+          bar1Style.backgroundColor = 'green';
+          bar2Style.backgroundColor = 'green';
+        }, i*5);
+      } else {
+        isRevert2 = false;
+        setTimeout(() => {
+          bar1Style.backgroundColor = blue;
+          bar2Style.backgroundColor = blue;
+        }, i*5);
+      }
+    }
+
+
+    if (animations[i].length === 1) {
+      setTimeout(() => {
+        const barStyle = arrayBars[animations[i][0]].style;
+        barStyle.backgroundColor = 'purple';
+      }, i*5);
+    }
+
+    
+  }
+
+
+
 };
 
 const checkIfSorted = array => {
@@ -202,7 +263,7 @@ const testAlgorithms = () => {
     const jsSortedArray = array.slice().sort((a, b) => a - b);
 
     // Choose sorting algorithm
-    const sortedArray = Algorithms.heapSort(array);
+    const sortedArray = Algorithms.bubbleSort(array);
     console.log(sortedArray);
 
     if (JSON.stringify(jsSortedArray) !== JSON.stringify(sortedArray)) {

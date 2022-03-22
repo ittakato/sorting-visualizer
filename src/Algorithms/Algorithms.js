@@ -186,6 +186,29 @@ const heapifyDown = (array, n, rootIdx, animations) => {
   }
 };
 
-const bubbleSort = array => {};
+const bubbleSort = array => {
+  const animations = [];
+
+  let isSwapping = false;
+  for (let i = 0; i < array.length-1; i++) {
+    for (let j = 0; j < array.length-1-i; j++) {
+
+      isSwapping = false;
+      animations.push([j,j+1, isSwapping]);
+      animations.push([j,j+1, isSwapping]);
+
+      if (array[j] > array[j+1]) {
+        isSwapping = true;
+        animations.push([j,j+1, isSwapping]);
+        animations.push([j,j+1, isSwapping]);
+        [array[j], array[j+1]] = [array[j+1], array[j]];
+      }
+    }
+
+    animations.push([array.length-1-i]);
+  }
+
+  return animations;
+};
 
 export { mergeSort, quickSort, heapSort, bubbleSort };
