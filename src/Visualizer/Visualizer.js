@@ -93,6 +93,7 @@ const mergeSort = array => {
       setTimeout(() => {
         const [barIdx, newHeight, isFinalMerge] = animations[i];
         const barStyle = arrayBars[barIdx].style;
+        arrayBars[barIdx].innerText = newHeight;
         barStyle.height = `${newHeight * barScale}vh`;
         if (isFinalMerge) {
           barStyle.backgroundColor = endColor;
