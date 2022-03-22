@@ -370,6 +370,8 @@ const Visualizer = () => {
     applyBarSettings(arrayBars, array, width);
   };
 
+
+
   return (
     <div className={styles.container}>
       <div className={styles.buttons}>
