@@ -145,8 +145,9 @@ const heapSort = array => {
   }
 
   for (let i = array.length - 1; i > 0; i--) {
-    animations.push([0, i]);
-    [array[0], array[i]] = [array[i], array[0]];
+    // color i: green
+    animations.push([2, 0, i]); // first param: 0:compare  1:swap  2:finish
+    animations.push([2, 0, i]);
     [array[0], array[i]] = [array[i], array[0]];
     heapifyDown(array, i, 0, animations);
   }
@@ -161,9 +162,11 @@ const heapifyDown = (array, n, rootIdx, animations) => {
 
   // color largestIdx, leftIdx, rightIdx: green
   if (rightIdx < n) {
-    animations.push([largestIdx, leftIdx, rightIdx]);
+    animations.push([0, largestIdx, leftIdx, rightIdx]);
+    animations.push([0, largestIdx, leftIdx, rightIdx]);
   } else if (leftIdx < n) {
-    animations.push([largestIdx, leftIdx, -1]);
+    animations.push([0, largestIdx, leftIdx, -1]);
+    animations.push([0, largestIdx, leftIdx, -1]);
   }
 
   if (leftIdx < n && array[leftIdx] > array[largestIdx]) {
@@ -175,8 +178,8 @@ const heapifyDown = (array, n, rootIdx, animations) => {
 
   if (largestIdx !== rootIdx) {
     // swapping: color largestIdx, rootIdx, red
-    animations.push([largestIdx, rootIdx]);
-    animations.push([largestIdx, rootIdx]);
+    animations.push([1, largestIdx, rootIdx]);
+    animations.push([1, largestIdx, rootIdx]);
     // animations.push([largestIdx, rootIdx]);
     [array[rootIdx], array[largestIdx]] = [array[largestIdx], array[rootIdx]];
     heapifyDown(array, n, largestIdx, animations);

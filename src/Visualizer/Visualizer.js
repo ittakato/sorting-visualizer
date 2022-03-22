@@ -114,48 +114,72 @@ const heapSort = array => {
 
   const animations = Algorithms.heapSort(array);
 
-  let isRevert = false;
+  let isRevert1 = false;
+  let isRevert2 = false;
 
   for (let i = 0; i < animations.length; i++) {
     const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
 
-    if (animations[i].length === 3) {
-      const [bar1Idx, bar2Idx, bar3Idx] = animations[i];
+    const flag = animations[i][0];
+    // 0: comparison
+    // 1: swap
+    // 2: finish
+
+    if (flag === 0) {
+      const [_ignore, bar1Idx, bar2Idx, bar3Idx] = animations[i];
       const bar1Style = arrayBars[bar1Idx].style;
       const bar2Style = arrayBars[bar2Idx].style;
       const bar3Style = arrayBars[bar3Idx]?.style;
 
-      setTimeout(() => {
-        bar1Style.backgroundColor = 'green';
-        bar2Style.backgroundColor = 'green';
-        if (bar3Style) bar3Style.backgroundColor = 'green';
-      }, i * 5);
+      if (!isRevert2) {
+        isRevert2 = true;
+        setTimeout(() => {
+          bar1Style.backgroundColor = 'red';
+          bar2Style.backgroundColor = 'red';
+          if (bar3Style) bar3Style.backgroundColor = 'red';
+        }, i * 5);
+      } else  {
+        isRevert2 = false;
+        setTimeout(() => {
+          bar1Style.backgroundColor = blue;
+          bar2Style.backgroundColor = blue;
+          if (bar3Style) bar3Style.backgroundColor = blue;
+        }, i * 5);
+      }
     } 
     
-    else {
-      const [bar1Idx, bar2Idx] = animations[i];
+    else if (flag === 1 || flag === 2) {
+      const [_ignore, bar1Idx, bar2Idx] = animations[i];
       const bar1Style = arrayBars[bar1Idx].style;
       const bar2Style = arrayBars[bar2Idx].style;
 
-      if (!isRevert) {
+      if (!isRevert1) {
+        isRevert1 = true;
         setTimeout(() => {
           [bar1Style.height, bar2Style.height] = [ bar2Style.height, bar1Style.height];
           bar1Style.backgroundColor = 'red';
           bar2Style.backgroundColor = 'red';
         }, i * 5);
-      } else {
+      } else if (isRevert1 && flag === 1) {
+        isRevert1 = false;
         setTimeout(() => {
-          [bar1Style.height, bar2Style.height] = [ bar2Style.height, bar1Style.height];
-          bar1Style.backgroundColor = 'red';
-          bar2Style.backgroundColor = 'red';
+          bar1Style.backgroundColor = blue;
+          bar2Style.backgroundColor = blue;
+        }, i * 5);
+      } else if (isRevert1 && flag === 2) {
+        isRevert1 = false;
+        setTimeout(() => {
+          bar1Style.backgroundColor = green;
+          bar2Style.backgroundColor = green;
         }, i * 5);
       }
-
     }
   }
 };
 
-const bubbleSort = array => {};
+const bubbleSort = array => {
+  
+};
 
 const checkIfSorted = array => {
   let currIdx = 0;
