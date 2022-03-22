@@ -1,5 +1,5 @@
 body {
-  background-color: black;
+  background-color: #1b1b2f;
 }
 
 .container {
@@ -30,21 +30,64 @@ body {
 .buttons {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
-  background-color: aqua;
+  background-color: #292941;
+  color: #eee;
   height: 5vh;
-	display: flex;
-	justify-content: center;
+  display: flex;
+  /* justify-content: center; */
   align-items: center;
-	gap: 20px;
+  gap: 20px;
   padding: 10px 20px;
 }
 
-.buttons label{
-  transform: translateY(-1.5px);
+.buttons label {
+  font-size: 18px;
+  transform: translateY(-4px);
+  transform: translateX(10px);
+}
+
+.buttons input:hover {
+  cursor: grab;
+}
+.buttons input:active {
+  cursor: grabbing;
 }
 
 .buttons button {
   font-family: inherit;
   font-weight: inherit;
+  padding: 0.5em 2em;
+  border: 0.16em solid #ddd;
+  text-decoration: none;
+  font-weight: 500;
+  color: #ddd;
+  text-align: center;
+  transition: all 0.15s;
+  background-color: transparent;
+  border-radius: 10px;
 }
 
+.buttons button:hover {
+  color: #ccc;
+  border-color: #ccc;
+  cursor: pointer;
+}
+
+.buttons button:active {
+  color: #aaa;
+  border-color: #aaa;
+}
+
+.buttons button:disabled {
+  color: #666;
+  border-color: #666;
+}
+
+.logo {
+  margin-right: auto;
+  margin-left: 30px;
+
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
