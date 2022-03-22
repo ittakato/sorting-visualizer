@@ -17,6 +17,8 @@ const resetArray = (numOfArrays = 100, min = 5, max = 1000) => {
 };
 
 const mergeSort = array => {
+  if (checkIfSorted(array)) return;
+
   const animations = Algorithms.mergeSort(array);
 
   for (let i = 0; i < animations.length; i++) {
@@ -26,7 +28,7 @@ const mergeSort = array => {
       const [bar1Idx, bar2Idx, isFinalMerge] = animations[i];
       const bar1Style = arrayBars[bar1Idx].style;
       const bar2Style = arrayBars[bar2Idx].style;
-      let color = i % 3 === 0 ? 'red' : '#8295ff';
+      let color = i % 3 === 0 ? 'red' : blue;
       setTimeout(() => {
         bar1Style.backgroundColor = color;
         bar2Style.backgroundColor = color;
@@ -47,9 +49,75 @@ const mergeSort = array => {
   }
 };
 
+const blue = '#8295ff';
+
 const quickSort = array => {
+  if (checkIfSorted(array)) return;
+
   const animations = Algorithms.quickSort(array);
   console.log(animations);
+
+  let isPivot = false;
+  let isRevert = false;
+  for (let i = 0; i < animations.length; i++) {
+    const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
+
+    if (animations[i].length === 1) {
+      const pivBarStyle = arrayBars[animations[i][0]].style;
+
+      isPivot = !isPivot;
+      if (isPivot) {
+        setTimeout(() => {
+          pivBarStyle.backgroundColor = 'yellow';
+        }, i * 5);
+      } else {
+        setTimeout(() => {
+          pivBarStyle.backgroundColor = 'purple';
+        }, i * 5);
+      }
+    } else {
+      const [bar1Idx, bar2Idx, isSwapping] = animations[i];
+      const bar1Style = arrayBars[bar1Idx].style;
+      const bar2Style = arrayBars[bar2Idx].style;
+
+      if (isSwapping && !isRevert) {
+        isRevert = true;
+        setTimeout(() => {
+          [bar1Style.height, bar2Style.height] = [
+            bar2Style.height,
+            bar1Style.height,
+          ];
+          bar1Style.backgroundColor = 'red';
+          bar2Style.backgroundColor = 'red';
+        }, i * 5);
+      } else if (!isRevert) {
+        isRevert = true;
+        setTimeout(() => {
+          bar1Style.backgroundColor = 'green';
+          bar2Style.backgroundColor = 'green';
+        }, i * 5);
+      }
+
+      if (isRevert) {
+        isRevert = false;
+        setTimeout(() => {
+          bar1Style.backgroundColor = blue;
+          bar2Style.backgroundColor = blue;
+        }, i * 5);
+      }
+    }
+  }
+};
+
+const checkIfSorted = array => {
+  let currIdx = 0;
+  for (let nextIdx = 1; nextIdx < array.length; nextIdx++) {
+    if (array[currIdx] > array[nextIdx]) {
+      return false;
+    }
+    currIdx = nextIdx;
+  }
+  return true;
 };
 
 const heapSort = array => {};
@@ -93,14 +161,13 @@ const enableButtonDisableFeature = () => {
       if (tgt.previousSibling && tgt.nextSibling) {
         disableButtons(10000);
       }
-      console.dir(e.target);
     });
   }
 };
 
-const barScale = 0.5;
+const barScale = 1;
 
-const numOfArrays = 200;
+const numOfArrays = 100;
 
 const Visualizer = () => {
   const [array, setArray] = useState([]);

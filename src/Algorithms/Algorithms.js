@@ -98,7 +98,7 @@ const quickSort = (array) => {
 };
 
 const quickSortHelper = (array, startIdx, endIdx, animations) => {
-  if (startIdx < endIdx) {
+  if (startIdx <= endIdx) {
     const parIdx = partition(array, startIdx, endIdx, animations);
     quickSortHelper(array, startIdx, parIdx - 1, animations);
     quickSortHelper(array, parIdx + 1, endIdx, animations);
@@ -114,25 +114,33 @@ const partition = (array, startIdx, endIdx, animations) => {
 
   for (let j = startIdx; j <= endIdx - 1; j++) {
     isSwapping = false;
-    array.push([i,j,isSwapping]); 
+    animations.push([i+1,j,isSwapping]); 
+    animations.push([i+1,j,isSwapping]); 
     if (array[j] < pivot) {
       i++;
       // color red when swapping
       isSwapping = true;
-      array.push([i,j, isSwapping]);
+      animations.push([i,j, isSwapping]);
+      isSwapping = false;
+      animations.push([i,j, isSwapping]);
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
+
   isSwapping = true;
-  array.push([i+1,endIdx, isSwapping]);
+  animations.push([i+1,endIdx, isSwapping]);
   [array[i + 1], array[endIdx]] = [array[endIdx], array[i + 1]];
 
   animations.push([i+1]); // Index of Pivot // color this purple
   return i + 1;
 };
 
-const heapSort = () => {};
+const heapSort = (array) => {};
 
-const bubbleSort = () => {};
 
-export { mergeSort, quickSort };
+
+const bubbleSort = (array) => {
+
+};
+
+export { mergeSort, quickSort, heapSort, bubbleSort };
