@@ -6,7 +6,9 @@ import styles from './Visualizer.module.css';
 
 // Bar Colors
 const startColor = '#8295ff';
-const endColor = '#2dff49';
+const endColor = '#44da58';
+const pivotColor = '#e2e238';
+const compareColor = '#d14747';
 
 // Speeds
 const mergeSortSpeed = 5;
@@ -80,7 +82,7 @@ const mergeSort = array => {
       const [bar1Idx, bar2Idx, isFinalMerge] = animations[i];
       const bar1Style = arrayBars[bar1Idx].style;
       const bar2Style = arrayBars[bar2Idx].style;
-      let color = i % 3 === 0 ? 'red' : startColor;
+      let color = i % 3 === 0 ? compareColor : startColor;
 
       setTimeout(() => {
         bar1Style.backgroundColor = color;
@@ -124,7 +126,7 @@ const quickSort = array => {
       isPivot = !isPivot;
       if (isPivot) {
         setTimeout(() => {
-          pivBarStyle.backgroundColor = 'yellow';
+          pivBarStyle.backgroundColor = pivotColor;
         }, i * quickSortSpeed);
       } else {
         setTimeout(() => {
@@ -147,14 +149,14 @@ const quickSort = array => {
             bar2Style.height,
             bar1Style.height,
           ];
-          bar1Style.backgroundColor = 'red';
-          bar2Style.backgroundColor = 'red';
+          bar1Style.backgroundColor = compareColor;
+          bar2Style.backgroundColor = compareColor;
         }, i * quickSortSpeed);
       } else if (!isRevert) {
         isRevert = true;
         setTimeout(() => {
-          bar1Style.backgroundColor = 'red';
-          bar2Style.backgroundColor = 'red';
+          bar1Style.backgroundColor = compareColor;
+          bar2Style.backgroundColor = compareColor;
         }, i * quickSortSpeed);
       }
 
@@ -197,9 +199,9 @@ const heapSort = array => {
       if (!isRevert2) {
         isRevert2 = true;
         setTimeout(() => {
-          bar1Style.backgroundColor = 'red';
-          bar2Style.backgroundColor = 'red';
-          if (bar3Style) bar3Style.backgroundColor = 'red';
+          bar1Style.backgroundColor = compareColor;
+          bar2Style.backgroundColor = compareColor;
+          if (bar3Style) bar3Style.backgroundColor = compareColor;
         }, i * heapSortSpeed);
       } else {
         isRevert2 = false;
@@ -225,8 +227,8 @@ const heapSort = array => {
             bar2Style.height,
             bar1Style.height,
           ];
-          bar1Style.backgroundColor = 'red';
-          bar2Style.backgroundColor = 'red';
+          bar1Style.backgroundColor = compareColor;
+          bar2Style.backgroundColor = compareColor;
         }, i * heapSortSpeed);
       } else if (isRevert1 && flag === 1) {
         isRevert1 = false;
@@ -277,8 +279,8 @@ const bubbleSort = array => {
             bar2Style.height,
             bar1Style.height,
           ];
-          bar1Style.backgroundColor = 'red';
-          bar2Style.backgroundColor = 'red';
+          bar1Style.backgroundColor = compareColor;
+          bar2Style.backgroundColor = compareColor;
         }, i * bubbleSortSpeed);
       } else {
         isRevert1 = false;
@@ -375,9 +377,12 @@ const Visualizer = () => {
     applyBarSettings(arrayBars, array, width);
   };
 
+
+
   return (
     <div className={styles.container}>
       <div className={styles.buttons}>
+        <div className={styles.logo}>Sorting Visualizer</div>
         <button
           onClick={() => {
             setArray(resetArray(numOfArrays));
@@ -389,7 +394,7 @@ const Visualizer = () => {
         >
           Generate New Array
         </button>
-        <label htmlFor="size">Size:</label>
+        <label htmlFor="size">Number of Arrays:</label>
         <input
           type="range"
           min="2"
@@ -399,10 +404,10 @@ const Visualizer = () => {
           onChange={numOfArraysChangeHandler}
           value={numOfArrays}
         />
-        <button onClick={() => mergeSort(array)}>Merge Sort</button>
-        <button onClick={() => quickSort(array)}>Quick Sort</button>
-        <button onClick={() => heapSort(array)}>Heap Sort</button>
-        <button onClick={() => bubbleSort(array)}>Bubble Sort</button>
+        <button onClick={() => {bubbleSort(array); }}>Bubble Sort</button>
+        <button onClick={() => {mergeSort(array); }}>Merge Sort</button>
+        <button onClick={() => {quickSort(array); }}>Quick Sort</button>
+        <button onClick={() => {heapSort(array); }}>Heap Sort</button>
         {/* <button onClick={() => testAlgorithms()}>Test Algorithms</button> */}
       </div>
       <div className={styles.array}>
@@ -413,7 +418,7 @@ const Visualizer = () => {
               key={index}
               style={{ height: `${value * 0.08}vh` }}
             >
-              {numOfArrays <= 36 ? value : ''}
+              {numOfArrays <= 22 ? value : ''}
             </div>
           );
         })}
