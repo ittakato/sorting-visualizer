@@ -136,24 +136,35 @@ const partition = (array, startIdx, endIdx, animations) => {
 };
 
 const heapSort = array => {
+  const animations = [];
+
   // Create heap with array
   for (let i = Math.floor(array.length / 2) - 1; i >= 0; i--) {
     // Exclude leaf nodes
-    heapifyDown(array, array.length, i);
+    heapifyDown(array, array.length, i, animations);
   }
 
   for (let i = array.length - 1; i > 0; i--) {
+    animations.push([0, i]);
     [array[0], array[i]] = [array[i], array[0]];
-    heapifyDown(array, i, 0);
+    [array[0], array[i]] = [array[i], array[0]];
+    heapifyDown(array, i, 0, animations);
   }
 
-  return array;
+  return animations;
 };
 
-const heapifyDown = (array, n, rootIdx) => {
+const heapifyDown = (array, n, rootIdx, animations) => {
   let largestIdx = rootIdx;
   let leftIdx = 2 * rootIdx + 1;
   let rightIdx = 2 * rootIdx + 2;
+
+  // color largestIdx, leftIdx, rightIdx: green
+  if (rightIdx < n) {
+    animations.push([largestIdx, leftIdx, rightIdx]);
+  } else if (leftIdx < n) {
+    animations.push([largestIdx, leftIdx, -1]);
+  }
 
   if (leftIdx < n && array[leftIdx] > array[largestIdx]) {
     largestIdx = leftIdx;
@@ -163,8 +174,12 @@ const heapifyDown = (array, n, rootIdx) => {
   }
 
   if (largestIdx !== rootIdx) {
+    // swapping: color largestIdx, rootIdx, red
+    animations.push([largestIdx, rootIdx]);
+    animations.push([largestIdx, rootIdx]);
+    // animations.push([largestIdx, rootIdx]);
     [array[rootIdx], array[largestIdx]] = [array[largestIdx], array[rootIdx]];
-    heapifyDown(array, n, largestIdx);
+    heapifyDown(array, n, largestIdx, animations);
   }
 };
 

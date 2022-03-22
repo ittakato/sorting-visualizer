@@ -109,7 +109,52 @@ const quickSort = array => {
   }
 };
 
-const heapSort = array => {};
+const heapSort = array => {
+  if (checkIfSorted(array)) return;
+
+  const animations = Algorithms.heapSort(array);
+
+  let isRevert = false;
+
+  for (let i = 0; i < animations.length; i++) {
+    const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
+
+    if (animations[i].length === 3) {
+      const [bar1Idx, bar2Idx, bar3Idx] = animations[i];
+      const bar1Style = arrayBars[bar1Idx].style;
+      const bar2Style = arrayBars[bar2Idx].style;
+      const bar3Style = arrayBars[bar3Idx]?.style;
+
+      setTimeout(() => {
+        bar1Style.backgroundColor = 'green';
+        bar2Style.backgroundColor = 'green';
+        if (bar3Style) bar3Style.backgroundColor = 'green';
+      }, i * 5);
+    } 
+    
+    else {
+      const [bar1Idx, bar2Idx] = animations[i];
+      const bar1Style = arrayBars[bar1Idx].style;
+      const bar2Style = arrayBars[bar2Idx].style;
+
+      if (!isRevert) {
+        setTimeout(() => {
+          [bar1Style.height, bar2Style.height] = [ bar2Style.height, bar1Style.height];
+          bar1Style.backgroundColor = 'red';
+          bar2Style.backgroundColor = 'red';
+        }, i * 5);
+      } else {
+        setTimeout(() => {
+          [bar1Style.height, bar2Style.height] = [ bar2Style.height, bar1Style.height];
+          bar1Style.backgroundColor = 'red';
+          bar2Style.backgroundColor = 'red';
+        }, i * 5);
+      }
+
+    }
+  }
+};
+
 const bubbleSort = array => {};
 
 const checkIfSorted = array => {
@@ -122,7 +167,6 @@ const checkIfSorted = array => {
   }
   return true;
 };
-
 
 const testAlgorithms = () => {
   for (let i = 0; i < 100; i++) {
