@@ -47,6 +47,14 @@ const mergeSort = array => {
   }
 };
 
+const quickSort = array => {
+  const animations = Algorithms.quickSort(array);
+  console.log(animations);
+};
+
+const heapSort = array => {};
+const bubbleSort = array => {};
+
 const testAlgorithms = () => {
   for (let i = 0; i < 100; i++) {
     const array = [];
@@ -55,7 +63,9 @@ const testAlgorithms = () => {
       array.push(generateRandomInt(-1000, 1000));
     }
     const jsSortedArray = array.slice().sort((a, b) => a - b);
-    const sortedArray = Algorithms.mergeSort(array);
+
+    // Choose sorting algorithm
+    const sortedArray = Algorithms.quickSort(array);
 
     if (JSON.stringify(jsSortedArray) !== JSON.stringify(sortedArray)) {
       console.log(false);
@@ -75,6 +85,19 @@ const disableButtons = timeout => {
   });
 };
 
+const enableButtonDisableFeature = () => {
+  const uiButtons = document.querySelector(`.${styles.buttons}`);
+  if (uiButtons) {
+    uiButtons.addEventListener('click', e => {
+      const tgt = e.target;
+      if (tgt.previousSibling && tgt.nextSibling) {
+        disableButtons(10000);
+      }
+      console.dir(e.target);
+    });
+  }
+};
+
 const barScale = 0.5;
 
 const numOfArrays = 200;
@@ -84,16 +107,7 @@ const Visualizer = () => {
 
   useEffect(() => {
     setArray(resetArray());
-    const uiButtons = document.querySelector(`.${styles.buttons}`);
-    if (uiButtons) {
-      uiButtons.addEventListener('click', e => {
-        const tgt = e.target;
-        if (tgt.previousSibling && tgt.nextSibling) {
-          disableButtons(10000);
-        }
-        console.dir(e.target);
-      });
-    }
+    // enableButtonDisableFeature();
   }, []);
 
   return (
@@ -126,9 +140,9 @@ const Visualizer = () => {
           Generate New Array
         </button>
         <button onClick={() => mergeSort(array)}>Merge Sort</button>
-        <button>Quick Sort</button>
-        <button>Heap Sort</button>
-        <button>Bubble Sort</button>
+        <button onClick={() => quickSort(array)}>Quick Sort</button>
+        <button onClick={() => heapSort(array)}>Heap Sort</button>
+        <button onClick={() => bubbleSort(array)}>Bubble Sort</button>
         <button onClick={() => testAlgorithms()}>Test Algorithms</button>
       </div>
     </div>
