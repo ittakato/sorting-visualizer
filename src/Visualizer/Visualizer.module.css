@@ -1,5 +1,12 @@
+body {
+  background-color: black;
+}
+
 .container {
-  height: 80vh;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .array {
@@ -21,8 +28,23 @@
 }
 
 .buttons {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  background-color: aqua;
+  height: 5vh;
 	display: flex;
 	justify-content: center;
+  align-items: center;
 	gap: 20px;
+  padding: 10px 20px;
+}
+
+.buttons label{
+  transform: translateY(-1.5px);
+}
+
+.buttons button {
+  font-family: inherit;
+  font-weight: inherit;
 }
 

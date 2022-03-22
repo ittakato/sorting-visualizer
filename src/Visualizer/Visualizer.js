@@ -377,19 +377,6 @@ const Visualizer = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.array}>
-        {array.map((value, index) => {
-          return (
-            <div
-              className={styles.array__bar}
-              key={index}
-              style={{ height: `${value * 0.08}vh` }}
-            >
-              {numOfArrays <= 36 ? value : ''}
-            </div>
-          );
-        })}
-      </div>
       <div className={styles.buttons}>
         <button
           onClick={() => {
@@ -416,7 +403,20 @@ const Visualizer = () => {
         <button onClick={() => quickSort(array)}>Quick Sort</button>
         <button onClick={() => heapSort(array)}>Heap Sort</button>
         <button onClick={() => bubbleSort(array)}>Bubble Sort</button>
-        <button onClick={() => testAlgorithms()}>Test Algorithms</button>
+        {/* <button onClick={() => testAlgorithms()}>Test Algorithms</button> */}
+      </div>
+      <div className={styles.array}>
+        {array.map((value, index) => {
+          return (
+            <div
+              className={styles.array__bar}
+              key={index}
+              style={{ height: `${value * 0.08}vh` }}
+            >
+              {numOfArrays <= 36 ? value : ''}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
