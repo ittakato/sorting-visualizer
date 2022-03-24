@@ -66,20 +66,36 @@ const testAlgorithms = () => {
   console.log(true);
 };
 
+// Disable all buttons. Only enable "Generate New Array" and slider
 const disableButtons = timeout => {
   const buttons = document.querySelectorAll('button');
   const slider = document.querySelector('input[type="range"]');
   buttons.forEach(btn => {
     btn.disabled = true;
-    setTimeout(() => {
-      btn.disabled = false;
-    }, timeout);
   });
   slider.disabled = true;
+
+  const generateNewArrayBtn = document.querySelector(`.${styles.generateNewArrayBtn}`);
   setTimeout(() => {
+    generateNewArrayBtn.disabled = false;
     slider.disabled = false;
   }, timeout);
+
 };
+// const disableButtons = timeout => {
+//   const buttons = document.querySelectorAll('button');
+//   const slider = document.querySelector('input[type="range"]');
+//   buttons.forEach(btn => {
+//     btn.disabled = true;
+//     setTimeout(() => {
+//       btn.disabled = false;
+//     }, timeout);
+//   });
+//   slider.disabled = true;
+//   setTimeout(() => {
+//     slider.disabled = false;
+//   }, timeout);
+// };
 
 // Sorting Algorithms
 const mergeSort = array => {
@@ -368,21 +384,29 @@ const Visualizer = () => {
     setNumOfArrays(event.target.value);
     const arrayBars = document.querySelectorAll(`.${styles.array__bar}`);
     applyBarSettings(arrayBars, array, width);
+    undisableAllButtons();
   };
 
-
+  const undisableAllButtons = () => {
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(btn => {
+      btn.disabled = false;
+    });
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.buttons}>
         <div className={styles.logo}>Sorting Visualizer</div>
         <button
+          className={styles.generateNewArrayBtn}
           onClick={() => {
             setArray(resetArray(numOfArrays));
             const arrayBars = document.querySelectorAll(
               `.${styles.array__bar}`
             );
             applyBarSettings(arrayBars, array, width);
+            undisableAllButtons();
           }}
         >
           Generate New Array
